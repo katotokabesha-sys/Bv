@@ -1,0 +1,78 @@
+LB-K-SMART-V1/
+│
+├── INDEX/
+│ ├── index.html # Entry point unique
+│ ├── manifest.json # PWA configuration
+│ └── sw.js # Service Worker
+│
+├── CORE/ # Noyau système
+│ ├── admin-core.js # Privilèges Fondateur
+│ ├── security.js # Auth + logs + versioning
+│ ├── config-manager.js # Centralisation params
+│ └── terminal.js # Console intégrée code
+│
+├── UI/ # Interface utilisateur
+│ ├── components/
+│ │ ├── floating-buttons/ # Boutons intelligents
+│ │ ├── smart-cart/ # Panier UI
+│ │ ├── drawers/ # Tiroirs menu/barre
+│ │ └── skeleton-loaders/ # Chargements
+│ │
+│ ├── themes/
+│ │ ├── light.css
+│ │ ├── dark.css
+│ │ └── theme-switcher.js
+│ │
+│ └── layouts/
+│ ├── admin-touch-ui/ # Interface tactile admin
+│ ├── main-responsive/ # UX responsive
+│ └── animations.css # Animations contrôlables
+│
+├── MODULES/ # Modules fonctionnels
+│ ├── double-boutique/
+│ │ ├── boutique-manager.js # Gestion Betty/Laurent
+│ │ ├── product.js # Classe produit
+│ │ ├── stock-watcher.js # Surveillance stock
+│ │ └── image-importer/ # Import local images
+│ │
+│ ├── smart-cart/
+│ │ ├── cart-engine.js # Logique métier
+│ │ ├── whatsapp-exporter.js # Génération message
+│ │ └── cart-storage.js # Persistance IndexedDB
+│ │
+│ ├── whatsapp-business/
+│ │ ├── router.js # Routage numéros
+│ │ └── message-builder.js # Templates messages
+│ │
+│ ├── ai-assistant/
+│ │ ├── chatbot-core.js # 24/7
+│ │ ├── context-engine.js # Intelligence stock/commandes
+│ │ └── visual-helper.js # Affichage images produits
+│ │
+│ ├── newsletter/
+│ │ ├── subscription.js # Gestion abonnés
+│ │ └── live-counter.js # Compteur animé
+│ │
+│ └── user-management/
+│ ├── visitor-tracker.js # Compteur visiteurs
+│ ├── staff-roles.js # Rôles employés
+│ └── access-control.js # Blocage/connexions
+│
+├── CONFIG/ # Fichiers paramétrables
+│ ├── floating-buttons.json # Config boutons flottants
+│ ├── menu-structure.json # Architecture navigation
+│ ├── boutique-betty.json # Catalogue Betty
+│ ├── boutique-laurent.json # Catalogue Laurent
+│ ├── ui-settings.json # Polices/couleurs/tailles
+│ └── admin-permissions.json # Droits exclusifs
+│
+├── ASSETS/
+│ ├── images/products/ # Stockage images produits
+│ ├── icons/svg/ # Icônes vectorielles
+│ └── fonts/custom/ # Polices personnalisées
+│
+└── UTILS/
+├── drag-drop-global.js # Système drag & drop
+├── live-editor.js # Édition temps réel
+├── image-uploader.js # Upload images local
+└── backup-system.js # Versioning/restauration
