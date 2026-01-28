@@ -1,0 +1,26 @@
+body { margin:0; font-family:Arial; background:#f5f5f5; }
+.top-bar {
+display:flex; align-items:center;
+background:#111; color:#fff; padding:10px;
+}
+.hamburger { font-size:24px; background:none; color:white; border:none; }
+.drawer {
+position:fixed; top:0; left:0; width:100%;
+background:#222; color:white;
+transform:translateY(-100%);
+transition:0.4s; padding:20px;
+}
+.drawer.open { transform:translateY(0); }
+.drawer button {
+display:block; width:100%; margin:10px 0;
+}
+.section { padding:20px; }
+.hidden { display:none; }
+.floating {
+position:fixed; bottom:10px; right:10px;
+display:flex; flex-direction:column; gap:10px;
+}
+.floating a, .floating button {
+padding:10px; border-radius:8px;
+background:#25D366; color:white; border:none;
+}
