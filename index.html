@@ -1,0 +1,3074 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>LB-K SMART | Plateforme Commerciale Intelligente Multi-Boutiques</title>
+    
+    <!-- Métadonnées professionnelles -->
+    <meta name="description" content="LB-K SMART - Plateforme WebApp commerciale intelligente multi-boutiques avec IA, WhatsApp Business intégré et gestion tactile avancée">
+    <meta name="keywords" content="e-commerce, boutique en ligne, IA, WhatsApp Business, gestion commerciale, Kolwezi, RDC, LB-K SMART">
+    <meta name="author" content="LB-K SMART">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta property="og:title" content="LB-K SMART - Plateforme Commerciale Intelligente">
+    <meta property="og:description" content="Solution e-commerce complète avec IA intégrée et gestion multi-boutiques">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Toastr Notifications -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    
+    <!-- Swiper Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <!-- Skeleton Loader CSS -->
+    <style>
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+        }
+        
+        @keyframes loading {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+    
+    <!-- Main Styles -->
+    <style>
+        /* ============ VARIABLES & RESET ============ */
+        :root {
+            /* Couleurs principales */
+            --primary: #0a0a1a;
+            --secondary: #00f3ff;
+            --accent: #7b00ff;
+            --danger: #ff0066;
+            --success: #00ff9d;
+            --warning: #ffcc00;
+            --light: #f0f8ff;
+            --dark: #050510;
+            
+            /* Glassmorphism */
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-dark: rgba(5, 5, 16, 0.95);
+            --glass-light: rgba(255, 255, 255, 0.12);
+            
+            /* Ombres */
+            --shadow: 0 8px 32px rgba(0, 243, 255, 0.15);
+            --shadow-lg: 0 20px 60px rgba(0, 243, 255, 0.2);
+            --shadow-neon: 0 0 20px rgba(0, 243, 255, 0.5);
+            
+            /* Bordures */
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 20px;
+            
+            /* Transitions */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Typographie */
+            --font-title: 'Orbitron', sans-serif;
+            --font-text: 'Inter', sans-serif;
+            
+            /* Gradients */
+            --gradient: linear-gradient(135deg, var(--accent), var(--secondary));
+            --gradient-reverse: linear-gradient(135deg, var(--secondary), var(--accent));
+            --gradient-dark: linear-gradient(135deg, #0a0a1a, #050510);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-text);
+            background: var(--primary);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes slideInFromTop {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromBottom {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .float { animation: float 3s ease-in-out infinite; }
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        /* ============ GOUVERNANCE & ADMIN ============ */
+        .admin-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .admin-login {
+            background: var(--glass-dark);
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--secondary);
+            box-shadow: var(--shadow-lg);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .admin-login h2 {
+            color: var(--secondary);
+            font-family: var(--font-title);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: var(--radius);
+            color: var(--light);
+            font-family: var(--font-text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.1);
+        }
+
+        .password-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: var(--radius);
+            font-family: var(--font-text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ============ HEADER & NAVIGATION ============ */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--glass-dark);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Logo */
+        .logo {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px var(--secondary));
+        }
+
+        /* Menu Hamburger amélioré */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            background: transparent;
+            border: none;
+            position: relative;
+            z-index: 1002;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Drawer Menu */
+        .drawer-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--glass-dark);
+            backdrop-filter: blur(30px);
+            z-index: 1001;
+            padding: 2rem;
+            overflow-y: auto;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .drawer-menu.active {
+            left: 0;
+        }
+
+        .drawer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 80px;
+        }
+
+        .drawer-section {
+            margin-bottom: 3rem;
+        }
+
+        .drawer-section h3 {
+            color: var(--secondary);
+            font-family: var(--font-title);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .drawer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .drawer-item {
+            background: var(--glass);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .drawer-item:hover {
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .drawer-item h4 {
+            color: var(--light);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .drawer-item p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* ============ BOUTONS FLOTTANTS CONFIGURABLES ============ */
+        .floating-buttons-container {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 9998;
+        }
+
+        .floating-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gradient);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .floating-button:hover::before {
+            left: 100%;
+        }
+
+        .floating-button:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .floating-button.whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+
+        .floating-button.ai {
+            background: linear-gradient(135deg, var(--accent), var(--danger));
+            animation: pulse 2s infinite;
+        }
+
+        .floating-button.cart {
+            background: linear-gradient(135deg, var(--success), var(--secondary));
+        }
+
+        .floating-button.display-mode {
+            background: linear-gradient(135deg, var(--warning), var(--accent));
+        }
+
+        .floating-button.admin-panel {
+            background: linear-gradient(135deg, #ffaa00, #ff0066);
+        }
+
+        .button-tooltip {
+            position: absolute;
+            right: 70px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        .floating-button:hover .button-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ============ MODE AFFICHAGE TOGGLE ============ */
+        .display-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 9997;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 8px;
+            display: flex;
+            gap: 5px;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        .display-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .display-btn.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .display-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* ============ BARRE DE TÂCHES BASSE À TIROIRS ============ */
+        .bottom-taskbar {
+            position: fixed;
+            bottom: -300px;
+            left: 0;
+            width: 100%;
+            background: var(--glass-dark);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            z-index: 9996;
+            transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .bottom-taskbar.active {
+            bottom: 0;
+            animation: slideInFromBottom 0.5s ease;
+        }
+
+        .taskbar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .taskbar-title {
+            color: var(--secondary);
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .taskbar-close {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .taskbar-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .taskbar-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .taskbar-product {
+            background: var(--glass);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .taskbar-product:hover {
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .product-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .product-badge.stock {
+            background: var(--success);
+        }
+
+        /* ============ CATALOGUE & PRODUITS ============ */
+        .catalog-container {
+            max-width: 1400px;
+            margin: 100px auto 50px;
+            padding: 20px;
+        }
+
+        .catalog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .catalog-title {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .catalog-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .boutique-section {
+            margin-bottom: 4rem;
+            background: var(--glass);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .boutique-title {
+            font-family: var(--font-title);
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-management {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.6rem 1.5rem;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: var(--radius);
+            color: var(--light);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 243, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid transparent;
+            transition: var(--transition);
+            position: relative;
+            cursor: move;
+        }
+
+        .product-card.dragging {
+            opacity: 0.5;
+            border: 2px dashed var(--secondary);
+        }
+
+        .product-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: rgba(0, 243, 255, 0.05);
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .upload-overlay:hover {
+            opacity: 1;
+        }
+
+        .upload-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .product-info {
+            text-align: center;
+        }
+
+        .product-name {
+            color: var(--light);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .product-price {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-quantity {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .product-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-btn:hover {
+            background: var(--gradient);
+            transform: scale(1.1);
+        }
+
+        /* ============ PANIER INTELLIGENT ============ */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: var(--glass-dark);
+            backdrop-filter: blur(30px);
+            z-index: 9999;
+            padding: 2rem;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        .cart-panel.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .cart-title {
+            color: var(--secondary);
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-items {
+            margin-bottom: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            background: var(--glass);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-name {
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .cart-item-price {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            background: transparent;
+            color: var(--light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .cart-total {
+            text-align: right;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .total-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-amount {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ============ IA SERVICE CLIENT ============ */
+        .ai-chat-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 400px;
+            background: var(--glass-dark);
+            backdrop-filter: blur(30px);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: var(--shadow-lg);
+            z-index: 9997;
+            display: none;
+            overflow: hidden;
+        }
+
+        .ai-chat-panel.active {
+            display: block;
+            animation: slideInFromBottom 0.3s ease;
+        }
+
+        .ai-header {
+            background: var(--gradient);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-title {
+            color: white;
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .ai-messages {
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            max-width: 85%;
+        }
+
+        .message.ai {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            margin-right: auto;
+        }
+
+        .message.user {
+            background: rgba(123, 0, 255, 0.1);
+            border: 1px solid rgba(123, 0, 255, 0.2);
+            margin-left: auto;
+        }
+
+        .ai-input-container {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .ai-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: var(--radius);
+            color: var(--light);
+            font-family: var(--font-text);
+            font-size: 1rem;
+            resize: none;
+            height: 60px;
+        }
+
+        .ai-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        /* ============ NEWSLETTER ============ */
+        .newsletter-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--gradient);
+            padding: 1rem 2rem;
+            z-index: 9995;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .newsletter-bar.active {
+            transform: translateY(0);
+        }
+
+        .newsletter-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .newsletter-text {
+            color: white;
+            font-weight: 600;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.9);
+            font-family: var(--font-text);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            background: white;
+        }
+
+        .subscriber-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .count-number {
+            background: white;
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+
+        /* ============ MINI PANNEAU ADMIN TOUCH SCREEN ============ */
+        .admin-mini-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 90vh;
+            background: var(--glass-dark);
+            backdrop-filter: blur(50px);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--secondary);
+            z-index: 100000;
+            padding: 2rem;
+            display: none;
+            overflow: hidden;
+        }
+
+        .admin-mini-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .admin-mini-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        .admin-mini-title {
+            color: var(--secondary);
+            font-family: var(--font-title);
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .touch-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .touch-button {
+            background: var(--glass);
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            padding: 2rem 1rem;
+            text-align: center;
+            cursor: move;
+            transition: var(--transition);
+            touch-action: none;
+            user-select: none;
+        }
+
+        .touch-button:hover {
+            border-color: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .touch-button i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .touch-button h4 {
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .movement-controls {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .movement-controls h4 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-family: var(--font-title);
+        }
+
+        .movement-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .movement-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: var(--radius);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .movement-option:hover {
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .movement-option.active {
+            background: var(--gradient);
+            border-color: var(--secondary);
+        }
+
+        .live-preview {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            border: 2px dashed rgba(0, 243, 255, 0.3);
+            margin-top: 2rem;
+        }
+
+        .live-preview h4 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* ============ TERMINAL TECH ============ */
+        .tech-terminal {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70vh;
+            background: #000;
+            font-family: 'Courier New', monospace;
+            z-index: 100001;
+            display: none;
+            flex-direction: column;
+        }
+
+        .tech-terminal.active {
+            display: flex;
+            animation: slideInFromBottom 0.3s ease;
+        }
+
+        .terminal-header {
+            background: #333;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            color: #00ff00;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            width: 100%;
+            padding: 1rem;
+            border-top: 1px solid #333;
+        }
+
+        .terminal-input:focus {
+            outline: none;
+        }
+
+        /* ============ COMPTEUR VISITEURS ============ */
+        .visitor-counter {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            z-index: 999;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .visitor-count {
+            color: var(--secondary);
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        /* ============ EMPLOYEE MANAGEMENT ============ */
+        .employee-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            max-width: 90vw;
+            background: var(--glass-dark);
+            backdrop-filter: blur(30px);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--secondary);
+            z-index: 100002;
+            padding: 2rem;
+            display: none;
+        }
+
+        .employee-panel.active {
+            display: block;
+        }
+
+        .employee-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 2rem 0;
+        }
+
+        .employee-item {
+            background: var(--glass);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .employee-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .permission-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+
+        .permission-read { background: rgba(0, 243, 255, 0.2); }
+        .permission-write { background: rgba(123, 0, 255, 0.2); }
+        .permission-admin { background: rgba(255, 0, 102, 0.2); }
+
+        /* ============ RESPONSIVE DESIGN ============ */
+        @media (max-width: 1200px) {
+            .cart-panel {
+                width: 350px;
+            }
+            
+            .ai-chat-panel {
+                width: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .catalog-container {
+                margin-top: 80px;
+                padding: 10px;
+            }
+            
+            .catalog-title {
+                font-size: 2rem;
+            }
+            
+            .floating-buttons-container {
+                right: 20px;
+                bottom: 20px;
+            }
+            
+            .floating-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .button-tooltip {
+                display: none;
+            }
+            
+            .display-toggle {
+                left: 20px;
+                bottom: 20px;
+            }
+            
+            .cart-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .ai-chat-panel {
+                width: calc(100% - 40px);
+                right: 20px;
+            }
+            
+            .admin-mini-panel {
+                width: 95vw;
+                height: 95vh;
+                padding: 1rem;
+            }
+            
+            .touch-buttons-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .newsletter-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .newsletter-form {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .drawer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .touch-buttons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .visitor-counter {
+                top: 80px;
+                right: 10px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ============ UTILITY CLASSES ============ */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-gradient {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary) transparent;
+        }
+
+        .scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrollbar::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        .scrollbar::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* ============ LOADING STATES ============ */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        /* ============ DRAG & DROP FEEDBACK ============ */
+        .drag-over {
+            border: 2px dashed var(--secondary) !important;
+            background: rgba(0, 243, 255, 0.05) !important;
+        }
+
+        .drop-ready {
+            border-color: var(--success) !important;
+        }
+
+        /* ============ WHATSAPP BUSINESS ============ */
+        .whatsapp-panel {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            width: 300px;
+            background: rgba(37, 211, 102, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            z-index: 9997;
+            display: none;
+            overflow: hidden;
+        }
+
+        .whatsapp-panel.active {
+            display: block;
+            animation: slideInFromBottom 0.3s ease;
+        }
+
+        .whatsapp-header {
+            background: #128C7E;
+            padding: 1rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .whatsapp-boutique {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .boutique-number {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .boutique-number:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="scrollbar">
+    <!-- Overlay de connexion Admin -->
+    <div class="admin-overlay" id="adminOverlay">
+        <div class="admin-login">
+            <h2><i class="fas fa-lock"></i> Accès Administrateur</h2>
+            <input type="password" class="password-input" id="adminPassword" placeholder="Mot de passe administrateur">
+            <div class="password-actions">
+                <button class="btn btn-primary" onclick="loginAdmin()">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </button>
+                <button class="btn btn-secondary" onclick="closeAdmin()">
+                    <i class="fas fa-times"></i> Annuler
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="main-header fade-in">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-robot"></i>
+                LB-K SMART
+            </a>
+            
+            <button class="hamburger" id="hamburger">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Menu Drawer -->
+    <nav class="drawer-menu" id="drawerMenu">
+        <div class="drawer-content">
+            <div class="drawer-section">
+                <h3><i class="fas fa-cog"></i> Administration</h3>
+                <div class="drawer-grid">
+                    <div class="drawer-item" onclick="openMiniPanel()">
+                        <h4><i class="fas fa-sliders-h"></i> Mini Panneau Touch</h4>
+                        <p>Interface tactile de configuration avancée</p>
+                    </div>
+                    <div class="drawer-item" onclick="openEmployeePanel()">
+                        <h4><i class="fas fa-users"></i> Gestion Employés</h4>
+                        <p>Gérer les accès et permissions</p>
+                    </div>
+                    <div class="drawer-item" onclick="openTechTerminal()">
+                        <h4><i class="fas fa-terminal"></i> Terminal Tech</h4>
+                        <p>Accès développeur HTML/CSS/JS/JSON</p>
+                    </div>
+                    <div class="drawer-item" onclick="openSettings()">
+                        <h4><i class="fas fa-wrench"></i> Paramètres Système</h4>
+                        <p>Configuration globale de la plateforme</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="drawer-section">
+                <h3><i class="fas fa-store"></i> Boutiques</h3>
+                <div class="drawer-grid">
+                    <div class="drawer-item" onclick="scrollToSection('betty-section')">
+                        <h4><i class="fas fa-female"></i> Betty Kabey Smart</h4>
+                        <p>Mode, cosmétiques, produits ménagers</p>
+                    </div>
+                    <div class="drawer-item" onclick="scrollToSection('laurent-section')">
+                        <h4><i class="fas fa-male"></i> Laurent Kabesha Smart</h4>
+                        <p>Électronique, automobile, pharmaceutique</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="drawer-section">
+                <h3><i class="fas fa-shopping-cart"></i> Panier & Commandes</h3>
+                <div class="drawer-grid">
+                    <div class="drawer-item" onclick="openCart()">
+                        <h4><i class="fas fa-shopping-bag"></i> Voir le panier</h4>
+                        <p>Gérer vos produits sélectionnés</p>
+                    </div>
+                    <div class="drawer-item" onclick="openWhatsAppPanel()">
+                        <h4><i class="fab fa-whatsapp"></i> Commander via WhatsApp</h4>
+                        <p>Envoyer directement sur WhatsApp Business</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Compteur de visiteurs -->
+    <div class="visitor-counter">
+        <i class="fas fa-users"></i>
+        <span class="visitor-count" id="visitorCount">0</span> visiteurs
+    </div>
+
+    <!-- Toggle d'affichage -->
+    <div class="display-toggle">
+        <button class="display-btn active" onclick="setDisplayMode('mobile')" data-mode="mobile">
+            <i class="fas fa-mobile-alt"></i>
+        </button>
+        <button class="display-btn" onclick="setDisplayMode('desktop')" data-mode="desktop">
+            <i class="fas fa-desktop"></i>
+        </button>
+    </div>
+
+    <!-- Boutons flottants -->
+    <div class="floating-buttons-container">
+        <button class="floating-button whatsapp" onclick="openWhatsAppPanel()">
+            <i class="fab fa-whatsapp"></i>
+            <span class="button-tooltip">WhatsApp Business</span>
+        </button>
+        
+        <button class="floating-button ai" onclick="openAIChat()">
+            <i class="fas fa-robot"></i>
+            <span class="button-tooltip">Assistant IA 24/7</span>
+        </button>
+        
+        <button class="floating-button cart" onclick="openCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="button-tooltip">Panier (<span id="cartCount">0</span>)</span>
+        </button>
+        
+        <button class="floating-button display-mode" onclick="toggleTaskbar()">
+            <i class="fas fa-bars"></i>
+            <span class="button-tooltip">Barre de tâches</span>
+        </button>
+        
+        <button class="floating-button admin-panel" onclick="openAdminPanel()">
+            <i class="fas fa-cog"></i>
+            <span class="button-tooltip">Panneau Admin</span>
+        </button>
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="catalog-container">
+        <!-- Section Betty Kabey Smart -->
+        <section id="betty-section" class="boutique-section slide-in">
+            <h2 class="boutique-title">
+                <i class="fas fa-female"></i>
+                Betty Kabey Smart
+                <span style="font-size: 1rem; color: var(--accent);">(Mode & Beauté)</span>
+            </h2>
+            
+            <div class="product-management">
+                <div class="product-actions">
+                    <button class="action-btn" onclick="addProduct('betty')">
+                        <i class="fas fa-plus"></i> Ajouter produit
+                    </button>
+                    <button class="action-btn" onclick="importImages()">
+                        <i class="fas fa-image"></i> Importer images
+                    </button>
+                    <button class="action-btn" onclick="organizeProducts()">
+                        <i class="fas fa-arrows-alt"></i> Organiser
+                    </button>
+                </div>
+                
+                <div style="display: flex; gap: 1rem;">
+                    <span style="color: var(--success); display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-check-circle"></i> En stock
+                    </span>
+                    <span style="color: var(--warning); display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-clock"></i> Sur commande
+                    </span>
+                </div>
+            </div>
+
+            <div class="products-grid" id="bettyProducts">
+                <!-- Les produits seront chargés dynamiquement -->
+                <div class="product-card" data-id="1" data-status="stock">
+                    <div class="product-image">
+                        <i class="fas fa-tshirt"></i>
+                        <div class="upload-overlay">
+                            <button class="upload-btn" onclick="uploadImage(this)">
+                                <i class="fas fa-upload"></i> Changer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">T-shirt élégant</h3>
+                        <div class="product-price">25$</div>
+                        <div class="product-quantity">Tailles: S, M, L, XL</div>
+                        <div class="product-actions-buttons">
+                            <button class="product-btn" onclick="editProduct(this)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="product-btn" onclick="addToCart(this)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                            <button class="product-btn" onclick="hideProduct(this)">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-id="2" data-status="order">
+                    <div class="product-image">
+                        <i class="fas fa-spa"></i>
+                        <div class="upload-overlay">
+                            <button class="upload-btn" onclick="uploadImage(this)">
+                                <i class="fas fa-upload"></i> Changer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Crème hydratante</h3>
+                        <div class="product-price">18$</div>
+                        <div class="product-quantity">Quantité: 50 unités</div>
+                        <div class="product-actions-buttons">
+                            <button class="product-btn" onclick="editProduct(this)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="product-btn" onclick="addToCart(this)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                            <button class="product-btn" onclick="hideProduct(this)">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Laurent Kabesha Smart -->
+        <section id="laurent-section" class="boutique-section slide-in">
+            <h2 class="boutique-title">
+                <i class="fas fa-male"></i>
+                Laurent Kabesha Smart
+                <span style="font-size: 1rem; color: var(--accent);">(Technologie & Professionnel)</span>
+            </h2>
+            
+            <div class="product-management">
+                <div class="product-actions">
+                    <button class="action-btn" onclick="addProduct('laurent')">
+                        <i class="fas fa-plus"></i> Ajouter produit
+                    </button>
+                    <button class="action-btn" onclick="importImages()">
+                        <i class="fas fa-image"></i> Importer images
+                    </button>
+                    <button class="action-btn" onclick="organizeProducts()">
+                        <i class="fas fa-arrows-alt"></i> Organiser
+                    </button>
+                </div>
+                
+                <div style="display: flex; gap: 1rem;">
+                    <span style="color: var(--success); display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-check-circle"></i> En stock
+                    </span>
+                    <span style="color: var(--warning); display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-clock"></i> Sur commande
+                    </span>
+                </div>
+            </div>
+
+            <div class="products-grid" id="laurentProducts">
+                <!-- Les produits seront chargés dynamiquement -->
+                <div class="product-card" data-id="3" data-status="stock">
+                    <div class="product-image">
+                        <i class="fas fa-headphones"></i>
+                        <div class="upload-overlay">
+                            <button class="upload-btn" onclick="uploadImage(this)">
+                                <i class="fas fa-upload"></i> Changer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Écouteurs Bluetooth</h3>
+                        <div class="product-price">45$</div>
+                        <div class="product-quantity">Quantité: 20 unités</div>
+                        <div class="product-actions-buttons">
+                            <button class="product-btn" onclick="editProduct(this)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="product-btn" onclick="addToCart(this)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                            <button class="product-btn" onclick="hideProduct(this)">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-id="4" data-status="order">
+                    <div class="product-image">
+                        <i class="fas fa-pills"></i>
+                        <div class="upload-overlay">
+                            <button class="upload-btn" onclick="uploadImage(this)">
+                                <i class="fas fa-upload"></i> Changer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Produits pharmaceutiques</h3>
+                        <div class="product-price">30$</div>
+                        <div class="product-quantity">Sur commande seulement</div>
+                        <div class="product-actions-buttons">
+                            <button class="product-btn" onclick="editProduct(this)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="product-btn" onclick="addToCart(this)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                            <button class="product-btn" onclick="hideProduct(this)">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Barre de tâches basse -->
+    <div class="bottom-taskbar scrollbar" id="bottomTaskbar">
+        <div class="taskbar-header">
+            <h3 class="taskbar-title">
+                <i class="fas fa-bars"></i>
+                Catalogue Complet
+                <span style="color: var(--warning); font-size: 0.9rem;">
+                    (Priorité aux produits sur commande)
+                </span>
+            </h3>
+            <button class="taskbar-close" onclick="toggleTaskbar()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="taskbar-products" id="taskbarProducts">
+            <!-- Les produits seront chargés dynamiquement -->
+        </div>
+    </div>
+
+    <!-- Panneau du panier -->
+    <div class="cart-panel scrollbar" id="cartPanel">
+        <div class="cart-header">
+            <h3 class="cart-title">
+                <i class="fas fa-shopping-cart"></i>
+                Votre Panier
+            </h3>
+            <button class="taskbar-close" onclick="closeCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <!-- Les articles du panier seront chargés dynamiquement -->
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-cart" style="font-size: 3rem; opacity: 0.3;"></i>
+                <p style="margin-top: 1rem;">Votre panier est vide</p>
+            </div>
+        </div>
+        
+        <div class="cart-total" id="cartTotal" style="display: none;">
+            <div class="total-label">Total à payer</div>
+            <div class="total-amount">0$</div>
+            <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="sendToWhatsApp()">
+                <i class="fab fa-whatsapp"></i> Envoyer sur WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Panneau IA Chat -->
+    <div class="ai-chat-panel" id="aiChatPanel">
+        <div class="ai-header">
+            <h3 class="ai-title">
+                <i class="fas fa-robot"></i>
+                Assistant LB-K SMART
+            </h3>
+            <div class="ai-status">
+                <span class="status-dot"></span>
+                <span>Disponible 24/7</span>
+            </div>
+        </div>
+        
+        <div class="ai-messages scrollbar" id="aiMessages">
+            <div class="message ai">
+                <p>Bonjour ! Je suis l'assistant IA de LB-K SMART. 👋</p>
+                <p>Je peux vous aider avec :</p>
+                <ul style="margin-left: 1rem;">
+                    <li>Informations sur les produits</li>
+                    <li>Tarifs et disponibilités</li>
+                    <li>Méthodes de paiement</li>
+                    <li>Délais de livraison</li>
+                    <li>Suggestions personnalisées</li>
+                </ul>
+                <p>Comment puis-je vous aider aujourd'hui ?</p>
+            </div>
+        </div>
+        
+        <div class="ai-input-container">
+            <textarea class="ai-input" id="aiInput" placeholder="Posez votre question ici... (Appuyez sur Entrée pour envoyer)"></textarea>
+        </div>
+    </div>
+
+    <!-- Panneau WhatsApp Business -->
+    <div class="whatsapp-panel" id="whatsappPanel">
+        <div class="whatsapp-header">
+            <h3 style="font-size: 1rem;"><i class="fab fa-whatsapp"></i> WhatsApp Business</h3>
+            <button class="taskbar-close" onclick="closeWhatsAppPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="whatsapp-boutique">
+            <div class="boutique-number" onclick="contactWhatsApp('betty')">
+                <strong>Betty Kabey Smart</strong>
+                <div style="margin-top: 5px;">+243 97 145 5335</div>
+            </div>
+            <div class="boutique-number" onclick="contactWhatsApp('laurent')">
+                <strong>Laurent Kabesha Smart</strong>
+                <div style="margin-top: 5px;">+243 82 293 7321</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mini Panneau Admin Touch Screen -->
+    <div class="admin-mini-panel" id="adminMiniPanel">
+        <div class="admin-mini-header">
+            <h2 class="admin-mini-title">
+                <i class="fas fa-sliders-h"></i>
+                Mini Panneau Admin - Touch Screen
+            </h2>
+            <button class="taskbar-close" onclick="closeMiniPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="touch-buttons-grid" id="touchButtons">
+            <div class="touch-button" draggable="true" data-type="whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                <h4>WhatsApp</h4>
+            </div>
+            <div class="touch-button" draggable="true" data-type="ai">
+                <i class="fas fa-robot"></i>
+                <h4>IA Client</h4>
+            </div>
+            <div class="touch-button" draggable="true" data-type="cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h4>Panier</h4>
+            </div>
+            <div class="touch-button" draggable="true" data-type="display">
+                <i class="fas fa-desktop"></i>
+                <h4>Affichage</h4>
+            </div>
+            <div class="touch-button" draggable="true" data-type="admin">
+                <i class="fas fa-cog"></i>
+                <h4>Admin</h4>
+            </div>
+            <div class="touch-button" draggable="true" data-type="newsletter">
+                <i class="fas fa-newspaper"></i>
+                <h4>Newsletter</h4>
+            </div>
+        </div>
+        
+        <div class="movement-controls">
+            <h4><i class="fas fa-arrows-alt"></i> Gestionnaire de Mouvement</h4>
+            <div class="movement-options">
+                <div class="movement-option active" data-movement="none" onclick="setMovement('none')">
+                    <i class="fas fa-ban"></i>
+                    <div>Aucun</div>
+                </div>
+                <div class="movement-option" data-movement="style" onclick="setMovement('style')">
+                    <i class="fas fa-palette"></i>
+                    <div>Style</div>
+                </div>
+                <div class="movement-option" data-movement="direction" onclick="setMovement('direction')">
+                    <i class="fas fa-arrows-alt"></i>
+                    <div>Direction</div>
+                </div>
+            </div>
+            
+            <div class="direction-controls" id="directionControls" style="margin-top: 1rem; display: none;">
+                <h5>Directions disponibles :</h5>
+                <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                    <button class="btn btn-secondary" onclick="setDirection('vertical')">Haut ↔ Bas</button>
+                    <button class="btn btn-secondary" onclick="setDirection('horizontal')">Gauche ↔ Droite</button>
+                    <button class="btn btn-secondary" onclick="setDirection('rotate')">Rotation</button>
+                    <button class="btn btn-secondary" onclick="setDirection('slide')">Coulissage</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="live-preview">
+            <h4><i class="fas fa-eye"></i> Prévisualisation Live</h4>
+            <p>Les modifications s'appliquent en temps réel sur le bureau principal.</p>
+        </div>
+    </div>
+
+    <!-- Terminal Tech -->
+    <div class="tech-terminal" id="techTerminal">
+        <div class="terminal-header">
+            <span><i class="fas fa-terminal"></i> Terminal Tech - LB-K SMART</span>
+            <button class="taskbar-close" onclick="closeTechTerminal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="terminal-body" id="terminalOutput">
+            LB-K SMART Terminal v1.0<br>
+            Type 'help' pour voir les commandes disponibles<br>
+            <br>
+            &gt; <span id="terminalPrompt"></span>
+        </div>
+        <input type="text" class="terminal-input" id="terminalInput" placeholder="Entrez une commande..." style="display: none;">
+    </div>
+
+    <!-- Panel Gestion Employés -->
+    <div class="employee-panel" id="employeePanel">
+        <div class="admin-mini-header">
+            <h2 class="admin-mini-title">
+                <i class="fas fa-users"></i>
+                Gestion des Employés
+            </h2>
+            <button class="taskbar-close" onclick="closeEmployeePanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="employee-list scrollbar" id="employeeList">
+            <!-- La liste des employés sera chargée dynamiquement -->
+        </div>
+        
+        <button class="btn btn-primary" onclick="addEmployee()" style="width: 100%;">
+            <i class="fas fa-user-plus"></i> Ajouter un employé
+        </button>
+    </div>
+
+    <!-- Barre Newsletter -->
+    <div class="newsletter-bar" id="newsletterBar">
+        <div class="newsletter-content">
+            <div class="newsletter-text">
+                📰 Restez informé ! Abonnez-vous à notre newsletter
+            </div>
+            
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="Votre email">
+                <button class="btn btn-primary" onclick="subscribeNewsletter()">
+                    S'abonner
+                </button>
+            </div>
+            
+            <div class="subscriber-count">
+                <i class="fas fa-users"></i>
+                <span class="count-number" id="subscriberCount">0</span> abonnés
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <script>
+        // Configuration Toastr
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        };
+
+        // ============ ÉTAT GLOBAL ============
+        const state = {
+            isAdmin: false,
+            adminPassword: "admin123",
+            displayMode: 'mobile',
+            cart: [],
+            visitors: 0,
+            subscribers: 0,
+            employees: [],
+            products: {
+                betty: [],
+                laurent: []
+            },
+            currentMovement: 'none',
+            currentDirection: 'vertical'
+        };
+
+        // ============ INITIALISATION ============
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simuler des visiteurs
+            updateVisitorCount();
+            
+            // Charger les données
+            loadInitialData();
+            
+            // Initialiser les événements
+            initEvents();
+            
+            // Afficher la newsletter après 5 secondes
+            setTimeout(() => {
+                document.getElementById('newsletterBar').classList.add('active');
+            }, 5000);
+            
+            toastr.success('LB-K SMART prêt à fonctionner !', 'Bienvenue');
+        });
+
+        // ============ FONCTIONS D'ÉTAT ============
+        function updateVisitorCount() {
+            state.visitors = Math.floor(Math.random() * 100) + 50;
+            document.getElementById('visitorCount').textContent = state.visitors;
+            setTimeout(updateVisitorCount, 30000); // Mettre à jour toutes les 30 secondes
+        }
+
+        function loadInitialData() {
+            // Simuler des données initiales
+            state.subscribers = 125;
+            document.getElementById('subscriberCount').textContent = state.subscribers;
+            
+            state.products.betty = [
+                { id: 1, name: 'T-shirt élégant', price: 25, status: 'stock', boutique: 'betty' },
+                { id: 2, name: 'Crème hydratante', price: 18, status: 'order', boutique: 'betty' }
+            ];
+            
+            state.products.laurent = [
+                { id: 3, name: 'Écouteurs Bluetooth', price: 45, status: 'stock', boutique: 'laurent' },
+                { id: 4, name: 'Produits pharmaceutiques', price: 30, status: 'order', boutique: 'laurent' }
+            ];
+            
+            state.employees = [
+                { id: 1, name: 'Employé 1', permissions: ['read', 'modify'] },
+                { id: 2, name: 'Employé 2', permissions: ['read'] }
+            ];
+            
+            updateTaskbarProducts();
+        }
+
+        // ============ GESTION ADMIN ============
+        function openAdminPanel() {
+            document.getElementById('adminOverlay').classList.add('active');
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminOverlay').classList.remove('active');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function loginAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === state.adminPassword) {
+                state.isAdmin = true;
+                toastr.success('Accès admin accordé !');
+                closeAdmin();
+                
+                // Activer les fonctionnalités admin
+                document.querySelectorAll('.admin-panel').forEach(btn => {
+                    btn.style.display = 'flex';
+                });
+            } else {
+                toastr.error('Mot de passe incorrect !');
+            }
+        }
+
+        // ============ NAVIGATION & MENUS ============
+        function initEvents() {
+            // Menu hamburger
+            const hamburger = document.getElementById('hamburger');
+            const drawerMenu = document.getElementById('drawerMenu');
+            
+            hamburger.addEventListener('click', function() {
+                this.classList.toggle('active');
+                drawerMenu.classList.toggle('active');
+            });
+
+            // Fermer le drawer en cliquant à l'extérieur
+            document.addEventListener('click', function(e) {
+                if (!drawerMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    drawerMenu.classList.remove('active');
+                }
+            });
+
+            // Drag & drop des produits
+            initDragAndDrop();
+            
+            // Drag & drop du mini panneau
+            initTouchPanelDrag();
+            
+            // Input IA
+            const aiInput = document.getElementById('aiInput');
+            aiInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendAIMessage();
+                }
+            });
+
+            // Input terminal
+            const terminalInput = document.getElementById('terminalInput');
+            terminalInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    executeTerminalCommand(this.value);
+                    this.value = '';
+                }
+            });
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('hamburger').classList.remove('active');
+                document.getElementById('drawerMenu').classList.remove('active');
+            }
+        }
+
+        // ============ MODES D'AFFICHAGE ============
+        function setDisplayMode(mode) {
+            state.displayMode = mode;
+            
+            // Mettre à jour les boutons
+            document.querySelectorAll('.display-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.mode === mode) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Appliquer les changements
+            if (mode === 'mobile') {
+                document.body.classList.add('mobile-mode');
+                toastr.info('Mode mobile activé');
+            } else {
+                document.body.classList.remove('mobile-mode');
+                toastr.info('Mode bureau activé');
+            }
+        }
+
+        // ============ BARRE DE TÂCHES ============
+        function toggleTaskbar() {
+            const taskbar = document.getElementById('bottomTaskbar');
+            taskbar.classList.toggle('active');
+            
+            if (taskbar.classList.contains('active')) {
+                updateTaskbarProducts();
+            }
+        }
+
+        function updateTaskbarProducts() {
+            const container = document.getElementById('taskbarProducts');
+            container.innerHTML = '';
+            
+            // Priorité aux produits sur commande
+            let allProducts = [
+                ...state.products.betty.map(p => ({...p, boutique: 'Betty'})),
+                ...state.products.laurent.map(p => ({...p, boutique: 'Laurent'}))
+            ];
+            
+            // Trier : produits sur commande d'abord
+            allProducts.sort((a, b) => {
+                if (a.status === 'order' && b.status !== 'order') return -1;
+                if (a.status !== 'order' && b.status === 'order') return 1;
+                return 0;
+            });
+            
+            allProducts.forEach(product => {
+                const div = document.createElement('div');
+                div.className = 'taskbar-product';
+                div.innerHTML = `
+                    <div style="font-weight: 600;">${product.name}</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <span>${product.boutique}</span>
+                        <span style="color: var(--secondary); font-weight: 700;">${product.price}$</span>
+                    </div>
+                    <span class="product-badge ${product.status === 'stock' ? 'stock' : ''}">
+                        ${product.status === 'stock' ? 'En stock' : 'Sur commande'}
+                    </span>
+                `;
+                div.onclick = () => addToCartFromTaskbar(product);
+                container.appendChild(div);
+            });
+        }
+
+        // ============ GESTION PRODUITS ============
+        function addProduct(boutique) {
+            if (!state.isAdmin) {
+                toastr.error('Accès admin requis');
+                return;
+            }
+            
+            const name = prompt('Nom du produit :');
+            if (!name) return;
+            
+            const price = parseFloat(prompt('Prix ($) :'));
+            if (isNaN(price)) return;
+            
+            const status = confirm('Produit en stock ? (OK = en stock, Annuler = sur commande)') ? 'stock' : 'order';
+            
+            const newProduct = {
+                id: Date.now(),
+                name,
+                price,
+                status,
+                boutique
+            };
+            
+            state.products[boutique].push(newProduct);
+            renderProducts(boutique);
+            toastr.success('Produit ajouté !');
+        }
+
+        function importImages() {
+            if (!state.isAdmin) {
+                toastr.error('Accès admin requis');
+                return;
+            }
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.multiple = true;
+            
+            input.onchange = function(e) {
+                const files = e.target.files;
+                toastr.success(`${files.length} image(s) importée(s)`);
+                // Ici, vous enverriez normalement les images au serveur
+            };
+            
+            input.click();
+        }
+
+        function organizeProducts() {
+            if (!state.isAdmin) {
+                toastr.error('Accès admin requis');
+                return;
+            }
+            
+            toastr.info('Mode organisation activé - Glissez-déposez les produits');
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.style.cursor = 'move';
+            });
+        }
+
+        function initDragAndDrop() {
+            const productsGrid = document.querySelector('.products-grid');
+            let draggedItem = null;
+            
+            document.querySelectorAll('.product-card').forEach(item => {
+                item.setAttribute('draggable', 'true');
+                
+                item.addEventListener('dragstart', function(e) {
+                    draggedItem = this;
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    draggedItem = null;
+                });
+            });
+            
+            document.querySelectorAll('.products-grid').forEach(container => {
+                container.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('drag-over');
+                });
+                
+                container.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+                
+                container.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    
+                    if (draggedItem && draggedItem.parentElement !== this) {
+                        this.appendChild(draggedItem);
+                        toastr.success('Produit déplacé !');
+                    }
+                });
+            });
+        }
+
+        function editProduct(element) {
+            if (!state.isAdmin) {
+                toastr.error('Accès admin requis');
+                return;
+            }
+            
+            const card = element.closest('.product-card');
+            const name = card.querySelector('.product-name').textContent;
+            const price = card.querySelector('.product-price').textContent.replace('$', '');
+            
+            const newName = prompt('Nouveau nom :', name);
+            if (!newName) return;
+            
+            const newPrice = parseFloat(prompt('Nouveau prix ($) :', price));
+            if (isNaN(newPrice)) return;
+            
+            card.querySelector('.product-name').textContent = newName;
+            card.querySelector('.product-price').textContent = newPrice + '$';
+            toastr.success('Produit modifié !');
+        }
+
+        function hideProduct(element) {
+            const card = element.closest('.product-card');
+            card.style.opacity = '0.5';
+            card.style.pointerEvents = 'none';
+            toastr.info('Produit masqué');
+        }
+
+        function uploadImage(element) {
+            if (!state.isAdmin) {
+                toastr.error('Accès admin requis');
+                return;
+            }
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.objectFit = 'cover';
+                        
+                        const imageContainer = element.closest('.product-image');
+                        imageContainer.innerHTML = '';
+                        imageContainer.appendChild(img);
+                        
+                        // Ajouter à nouveau l'overlay
+                        const overlay = document.createElement('div');
+                        overlay.className = 'upload-overlay';
+                        overlay.innerHTML = `<button class="upload-btn" onclick="uploadImage(this)"><i class="fas fa-upload"></i> Changer</button>`;
+                        imageContainer.appendChild(overlay);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            
+            input.click();
+        }
+
+        function renderProducts(boutique) {
+            // Cette fonction mettrait à jour l'affichage des produits
+            // Pour l'exemple, nous allons simplement recharger les données
+        }
+
+        // ============ PANIER INTELLIGENT ============
+        function addToCart(element) {
+            const card = element.closest('.product-card');
+            const name = card.querySelector('.product-name').textContent;
+            const price = parseFloat(card.querySelector('.product-price').textContent.replace('$', ''));
+            const id = card.dataset.id;
+            
+            const existingItem = state.cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                state.cart.push({
+                    id,
+                    name,
+                    price,
+                    quantity: 1,
+                    boutique: card.closest('.boutique-section').id.includes('betty') ? 'Betty' : 'Laurent'
+                });
+            }
+            
+            updateCartUI();
+            toastr.success('Ajouté au panier !');
+        }
+
+        function addToCartFromTaskbar(product) {
+            const existingItem = state.cart.find(item => item.id === product.id);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                state.cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            updateCartUI();
+            toastr.success('Ajouté au panier !');
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartEmpty = document.getElementById('cartEmpty');
+            
+            cartCount.textContent = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (state.cart.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartTotal.style.display = 'none';
+            } else {
+                cartEmpty.style.display = 'none';
+                cartTotal.style.display = 'block';
+                
+                cartItems.innerHTML = '';
+                let total = 0;
+                
+                state.cart.forEach((item, index) => {
+                    total += item.price * item.quantity;
+                    
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <div class="cart-item-header">
+                            <span class="cart-item-name">${item.name}</span>
+                            <span class="cart-item-price">${item.price * item.quantity}$</span>
+                        </div>
+                        <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">${item.boutique}</div>
+                        <div class="cart-item-controls">
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span style="min-width: 30px; text-align: center;">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            <button class="quantity-btn" onclick="removeFromCart(${index})" style="margin-left: auto;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    cartItems.appendChild(div);
+                });
+                
+                document.querySelector('.total-amount').textContent = total + '$';
+            }
+        }
+
+        function updateQuantity(index, change) {
+            const item = state.cart[index];
+            item.quantity += change;
+            
+            if (item.quantity <= 0) {
+                state.cart.splice(index, 1);
+            }
+            
+            updateCartUI();
+        }
+
+        function removeFromCart(index) {
+            state.cart.splice(index, 1);
+            updateCartUI();
+            toastr.info('Article retiré');
+        }
+
+        function openCart() {
+            document.getElementById('cartPanel').classList.add('active');
+        }
+
+        function closeCart() {
+            document.getElementById('cartPanel').classList.remove('active');
+        }
+
+        function sendToWhatsApp() {
+            if (state.cart.length === 0) {
+                toastr.error('Le panier est vide !');
+                return;
+            }
+            
+            let message = "📦 Commande LB-K SMART 📦\n\n";
+            let total = 0;
+            
+            state.cart.forEach(item => {
+                message += `• ${item.name} (${item.boutique})\n`;
+                message += `  Quantité: ${item.quantity}\n`;
+                message += `  Prix unitaire: ${item.price}$\n`;
+                message += `  Sous-total: ${item.price * item.quantity}$\n\n`;
+                total += item.price * item.quantity;
+            });
+            
+            message += `💵 TOTAL: ${total}$\n`;
+            message += `\nClient: [À compléter]\n`;
+            message += `Adresse: [À compléter]\n`;
+            message += `Téléphone: [À compléter]\n`;
+            
+            // Détecter la boutique principale
+            const mainBoutique = state.cart[0].boutique === 'Betty' ? 'betty' : 'laurent';
+            const phone = mainBoutique === 'betty' ? '243971455335' : '243822937321';
+            
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+            toastr.success('Redirection vers WhatsApp...');
+        }
+
+        // ============ IA SERVICE CLIENT ============
+        function openAIChat() {
+            document.getElementById('aiChatPanel').classList.add('active');
+            document.getElementById('aiInput').focus();
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Ajouter le message utilisateur
+            addAIMessage(message, 'user');
+            input.value = '';
+            
+            // Simuler une réponse de l'IA après un délai
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addAIMessage(response, 'ai');
+            }, 1000);
+        }
+
+        function addAIMessage(text, sender) {
+            const container = document.getElementById('aiMessages');
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            div.innerHTML = `<p>${text}</p>`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function generateAIResponse(question) {
+            const responses = {
+                'prix': 'Nos prix varient selon les produits et les boutiques. Pour les produits en stock, les prix sont fixes. Pour les produits sur commande, les prix dépendent du transport et des délais.',
+                'livraison': 'Livraison à domicile disponible. Petits colis: prix selon distance. Grands colis (400kg+): livraison gratuite.',
+                'paiement': 'Nous acceptons Mobile Money, IllicoCash et paiement à la livraison.',
+                'stock': 'Les produits "En stock" sont disponibles immédiatement. Les produits "Sur commande" nécessitent 15-21 jours (avion) ou 70-90 jours (bateau).',
+                'commande': 'Pour commander: 1) Fournir une image du modèle 2) Spécifier la marque 3) Indiquer quantité et taille',
+                'default': 'Je comprends votre question ! Pour des informations plus précises, je vous recommande de contacter directement notre service WhatsApp au +243 82 293 7321.'
+            };
+            
+            question = question.toLowerCase();
+            
+            if (question.includes('prix') || question.includes('coût')) return responses.prix;
+            if (question.includes('livraison') || question.includes('transport')) return responses.livraison;
+            if (question.includes('paiement') || question.includes('payer')) return responses.paiement;
+            if (question.includes('stock') || question.includes('disponible')) return responses.stock;
+            if (question.includes('commande') || question.includes('commander')) return responses.commande;
+            
+            return responses.default;
+        }
+
+        // ============ WHATSAPP BUSINESS ============
+        function openWhatsAppPanel() {
+            document.getElementById('whatsappPanel').classList.add('active');
+        }
+
+        function closeWhatsAppPanel() {
+            document.getElementById('whatsappPanel').classList.remove('active');
+        }
+
+        function contactWhatsApp(boutique) {
+            const phone = boutique === 'betty' ? '243971455335' : '243822937321';
+            const message = "Bonjour, je souhaite avoir des informations sur vos produits.";
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // ============ NEWSLETTER ============
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletterEmail').value;
+            
+            if (!validateEmail(email)) {
+                toastr.error('Email invalide !');
+                return;
+            }
+            
+            state.subscribers++;
+            document.getElementById('subscriberCount').textContent = state.subscribers;
+            document.getElementById('newsletterEmail').value = '';
+            
+            toastr.success('Merci pour votre abonnement !');
+            
+            // Masquer la newsletter pendant 7 jours
+            document.getElementById('newsletterBar').classList.remove('active');
+            localStorage.setItem('newsletterHidden', Date.now().toString());
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // ============ MINI PANNEAU ADMIN TOUCH ============
+        function openMiniPanel() {
+            if (!state.isAdmin) {
+                toastr.error('Accès admin requis');
+                return;
+            }
+            document.getElementById('adminMiniPanel').classList.add('active');
+        }
+
+        function closeMiniPanel() {
+            document.getElementById('adminMiniPanel').classList.remove('active');
+        }
+
+        function initTouchPanelDrag() {
+            let touchButtons = document.querySelectorAll('.touch-button');
+            let dropzone = document.getElementById('touchButtons');
+            
+            touchButtons.forEach(button => {
+                button.addEventListener('touchstart', handleTouchStart, {passive: false});
+                button.addEventListener('touchmove', handleTouchMove, {passive: false});
+                button.addEventListener('touchend', handleTouchEnd);
+                
+                button.addEventListener('dragstart', handleDragStart);
+                button.addEventListener('dragend', handleDragEnd);
+            });
+            
+            dropzone.addEventListener('dragover', handleDragOver);
+            dropzone.addEventListener('drop', handleDrop);
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const button = e.target.closest('.touch-button');
+            button.style.position = 'absolute';
+            button.style.zIndex = '1000';
+            button.dataset.startX = e.touches[0].clientX - button.offsetLeft;
+            button.dataset.startY = e.touches[0].clientY - button.offsetTop;
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            const button = e.target.closest('.touch-button');
+            if (!button.dataset.startX) return;
+            
+            const x = e.touches[0].clientX - parseFloat(button.dataset.startX);
+            const y = e.touches[0].clientY - parseFloat(button.dataset.startY);
+            
+            button.style.left = x + 'px';
+            button.style.top = y + 'px';
+        }
+
+        function handleTouchEnd(e) {
+            const button = e.target.closest('.touch-button');
+            button.style.position = '';
+            button.style.zIndex = '';
+            delete button.dataset.startX;
+            delete button.dataset.startY;
+        }
+
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.dataset.type);
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const type = e.dataTransfer.getData('text/plain');
+            const dragged = document.querySelector(`.touch-button[data-type="${type}"]`);
+            
+            if (dragged && dragged !== e.target.closest('.touch-button')) {
+                const dropzone = e.target.closest('#touchButtons');
+                dropzone.insertBefore(dragged, e.target.closest('.touch-button') || e.target);
+                toastr.success('Bouton réorganisé !');
+            }
+        }
+
+        function setMovement(type) {
+            state.currentMovement = type;
+            
+            document.querySelectorAll('.movement-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.dataset.movement === type) {
+                    opt.classList.add('active');
+                }
+            });
+            
+            const directionControls = document.getElementById('directionControls');
+            directionControls.style.display = type === 'direction' ? 'block' : 'none';
+            
+            toastr.info(`Mode mouvement: ${type}`);
+        }
+
+        function setDirection(direction) {
+            state.currentDirection = direction;
+            toastr.info(`Direction: ${direction}`);
+        }
+
+        // ============ TERMINAL TECH ============
+        function openTechTerminal() {
+            if (!state.isAdmin) {
+                toastr.error('Accès admin requis');
+                return;
+            }
+            document.getElementById('techTerminal').classList.add('active');
+            document.getElementById('terminalInput').style.display = 'block';
+            document.getElementById('terminalInput').focus();
+        }
+
+        function closeTechTerminal() {
+            document.getElementById('techTerminal').classList.remove('active');
+            document.getElementById('terminalInput').style.display = 'none';
+        }
+
+        function executeTerminalCommand(command) {
+            const output = document.getElementById('terminalOutput');
+            output.innerHTML += `\n&gt; ${command}\n`;
+            
+            switch (command.toLowerCase()) {
+                case 'help':
+                    output.innerHTML += 'Commandes disponibles:\n';
+                    output.innerHTML += '  help - Affiche cette aide\n';
+                    output.innerHTML += '  clear - Efface l\'écran\n';
+                    output.innerHTML += '  backup - Crée une sauvegarde\n';
+                    output.innerHTML += '  restore - Restaure une sauvegarde\n';
+                    output.innerHTML += '  deploy - Déploie les modifications\n';
+                    output.innerHTML += '  version - Affiche la version\n';
+                    break;
+                    
+                case 'clear':
+                    output.innerHTML = '';
+                    break;
+                    
+                case 'backup':
+                    output.innerHTML += 'Création de la sauvegarde... OK\n';
+                    output.innerHTML += 'Sauvegarde complète à: ' + new Date().toISOString() + '\n';
+                    break;
+                    
+                case 'restore':
+                    output.innerHTML += 'Restauration en cours...\n';
+                    output.innerHTML += 'Utilisez: restore <fichier>\n';
+                    break;
+                    
+                case 'deploy':
+                    output.innerHTML += 'Déploiement des modifications...\n';
+                    output.innerHTML += '✓ HTML/CSS/JS déployés\n';
+                    output.innerHTML += '✓ Base de données mise à jour\n';
+                    output.innerHTML += '✓ Cache vidé\n';
+                    output.innerHTML += 'Déploiement réussi !\n';
+                    break;
+                    
+                case 'version':
+                    output.innerHTML += 'LB-K SMART Terminal v1.0\n';
+                    output.innerHTML += 'Dernière mise à jour: ' + new Date().toLocaleDateString() + '\n';
+                    break;
+                    
+                default:
+                    output.innerHTML += 'Commande non reconnue. Tapez "help" pour la liste.\n';
+            }
+            
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // ============ GESTION EMPLOYÉS ============
+        function openEmployeePanel() {
+            if (!state.isAdmin) {
+                toastr.error('Accès admin requis');
+                return;
+            }
+            document.getElementById('employeePanel').classList.add('active');
+            renderEmployees();
+        }
+
+        function closeEmployeePanel() {
+            document.getElementById('employeePanel').classList.remove('active');
+        }
+
+        function renderEmployees() {
+            const container = document.getElementById('employeeList');
+            container.innerHTML = '';
+            
+            state.employees.forEach((emp, index) => {
+                const div = document.createElement('div');
+                div.className = 'employee-item';
+                div.innerHTML = `
+                    <div>
+                        <strong>${emp.name}</strong>
+                        <div style="margin-top: 5px;">
+                            ${emp.permissions.map(p => `<span class="permission-${p} permission-badge">${p}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="product-btn" onclick="editEmployee(${index})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="product-btn" onclick="removeEmployee(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="product-btn" onclick="toggleEmployee(${index})">
+                            <i class="fas fa-ban"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addEmployee() {
+            const name = prompt('Nom de l\'employé :');
+            if (!name) return;
+            
+            state.employees.push({
+                id: Date.now(),
+                name,
+                permissions: ['read']
+            });
+            
+            renderEmployees();
+            toastr.success('Employé ajouté !');
+        }
+
+        function editEmployee(index) {
+            const emp = state.employees[index];
+            const newName = prompt('Nouveau nom :', emp.name);
+            if (newName) {
+                emp.name = newName;
+                renderEmployees();
+                toastr.success('Employé modifié !');
+            }
+        }
+
+        function removeEmployee(index) {
+            if (confirm('Supprimer cet employé ?')) {
+                state.employees.splice(index, 1);
+                renderEmployees();
+                toastr.info('Employé supprimé');
+            }
+        }
+
+        function toggleEmployee(index) {
+            const emp = state.employees[index];
+            emp.permissions = emp.permissions.includes('banned') ? ['read'] : ['banned'];
+            renderEmployees();
+            toastr.info('Accès ' + (emp.permissions.includes('banned') ? 'bloqué' : 'restauré'));
+        }
+
+        // ============ FONCTIONS UTILITAIRES ============
+        function openSettings() {
+            toastr.info('Paramètres système - Fonctionnalité à venir');
+        }
+
+        // ============ EXPORT DES FONCTIONS GLOBALES ============
+        window.loginAdmin = loginAdmin;
+        window.closeAdmin = closeAdmin;
+        window.openAdminPanel = openAdminPanel;
+        window.setDisplayMode = setDisplayMode;
+        window.toggleTaskbar = toggleTaskbar;
+        window.openCart = openCart;
+        window.closeCart = closeCart;
+        window.openAIChat = openAIChat;
+        window.sendAIMessage = sendAIMessage;
+        window.openWhatsAppPanel = openWhatsAppPanel;
+        window.closeWhatsAppPanel = closeWhatsAppPanel;
+        window.contactWhatsApp = contactWhatsApp;
+        window.openMiniPanel = openMiniPanel;
+        window.closeMiniPanel = closeMiniPanel;
+        window.setMovement = setMovement;
+        window.setDirection = setDirection;
+        window.openTechTerminal = openTechTerminal;
+        window.closeTechTerminal = closeTechTerminal;
+        window.openEmployeePanel = openEmployeePanel;
+        window.closeEmployeePanel = closeEmployeePanel;
+        window.addEmployee = addEmployee;
+        window.editEmployee = editEmployee;
+        window.removeEmployee = removeEmployee;
+        window.toggleEmployee = toggleEmployee;
+        window.addProduct = addProduct;
+        window.importImages = importImages;
+        window.organizeProducts = organizeProducts;
+        window.editProduct = editProduct;
+        window.hideProduct = hideProduct;
+        window.uploadImage = uploadImage;
+        window.addToCart = addToCart;
+        window.addToCartFromTaskbar = addToCartFromTaskbar;
+        window.updateQuantity = updateQuantity;
+        window.removeFromCart = removeFromCart;
+        window.sendToWhatsApp = sendToWhatsApp;
+        window.subscribeNewsletter = subscribeNewsletter;
+        window.scrollToSection = scrollToSection;
+        window.openSettings = openSettings;
+    </script>
+</body>
+</html>
